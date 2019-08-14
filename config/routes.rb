@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'stationeries/new'
   get 'sessions/new'
 
   root 'static_pages#home'
@@ -13,5 +14,7 @@ Rails.application.routes.draw do
   get    '/login',   to: 'sessions#new'
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
-  resources :users
+
+  #get    '/stationeries'  to: 'stationeries#new'
+  resources :users, :stationeries
 end

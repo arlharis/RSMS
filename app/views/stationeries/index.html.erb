@@ -1,0 +1,41 @@
+<% provide :title, "List of stationeries" %>
+
+<div class="container">
+
+    <h3>List of Stationeries (<%= Stationery.count %> in total) </h3>
+    <% @stationeries.each do |item| %>
+        <!-- Adapted from Bootstrap docs -->
+        <div class="card card-default" style="width: 16rem;">
+            <div class="card-body">
+                <h5 class="card-title"><%= item.name %></h5>
+                <h6 class="card-subtitle mb-2 text-muted">Code: <span><%= item.product_code %></span></h6>
+                <h6 class="card-subtitle mb-2 text-muted">Type: <span><%= item.stationery_type.to_s.capitalize %></span></h6>
+                <% if item.quantity == 0 %>
+                    <h6 class="card-subtitle mb-2 text-muted">Unavailable. Please check again later.</h6>
+                <% else %>
+                    <h6 class="card-subtitle mb-2 text-muted">Available: <span><%= item.quantity %></span></h6>
+                <% end %>
+                <% if logged_in? %>
+                        <%= form_for(:transaction, url: borrow_path, method: :post) do |f| %>
+                        <%= f.hidden_field :item_id, value: item.id %> 
+                        <%= f.hidden_field :borrower_id, value: current_user.id %> 
+                        <% if item.quantity > 0 %>
+                            <span><h6>Select quantity:</h6></span>
+                            <% if !item.fixed? %>
+                                <%= f.number_field :quantity, min: 1, max: item.quantity, class: "form-control", value: 1 %>
+                            <% else %>
+                                <%= f.number_field :quantity, min: 1, max: 1, class: "form-control", readonly: true, value: 1 %>
+                            <% end %>
+                            <br/>
+                            <%= f.submit determine_transaction_type(item), class: "btn btn-primary", data: { confirm: "Are you sure you want to #{determine_transaction_type(item).to_s.downcase} #{item.name}?"} %>
+                    <% end %>
+                    <% end %>
+                <% else %>
+                    <%= link_to "Sign in to borrow", signup_path , class: "card-link btn btn-primary" %>
+                <% end %>
+            </div>
+        </div>
+    <% end %>
+</div>
+<%= link_to "Back to Home", root_path, class: "btn btn-primary" %>
+</div>
