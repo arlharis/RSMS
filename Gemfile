@@ -7,6 +7,11 @@ ruby '2.6.3'
 gem 'rails', '~> 5.2.3'
 gem 'bootstrap-sass', '3.3.7'
 gem 'bcrypt'
+gem 'faker',  '1.7.3'
+gem 'carrierwave', '>= 2.0.0.rc'
+gem 'mini_magick',             '4.7.0'
+gem 'will_paginate',           '3.1.7'
+gem 'bootstrap-will_paginate', '1.0.0'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
