@@ -10,13 +10,15 @@
   </aside>
 </div>
 <div>
-	<% if !no_outstanding_fines? %>
-	    <h4>Outstanding fine: <b><i>RM <%= calculate_fines %></i></b></h4>
-	<% else %>
-	    <h4>You currently have <b><i>no outstanding fines</i></b>.</h4>
-	<% end %>
-	<%= render 'stationeries/borrowed' %>
-	<% if !Transaction.where(user_id: current_user.id, return_details: true).where.not(return_date: nil).empty? %>
-	    <%= render 'transactions/history' %>
+	<% if !current_user.admin? %>
+		<% if !no_outstanding_fines? %>
+		    <h4>Outstanding fine: <b><i>RM <%= calculate_fines %></i></b></h4>
+		<% else %>
+		    <h4>You currently have <b><i>no outstanding fines</i></b>.</h4>
+		<% end %>
+		<%= render 'stationeries/borrowed' %>
+		<% if !Transaction.where(user_id: current_user.id, return_details: true).where.not(return_date: nil).empty? %>
+		    <%= render 'transactions/history' %>
+		<% end %>
 	<% end %>
 </div>
