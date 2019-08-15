@@ -1,0 +1,11 @@
+<% provide :title, "Rambutan Stationery Borrowing Section" %>
+
+<div class="container">
+	<h3>Borrowing Transaction Receipt</h3>
+	<p>Item Name: <%= @item.name %></p>
+	<p>Quantity	: <%= @transact.quantity %></p>
+	<% if @transact.expired_date %>
+		<p>Need to return the book: <%=DateTime.parse(@transact.expired_date.to_s).strftime("%l:%M %p, %e %B %Y (%A)") %></p>
+	<% end %>
+	<%= link_to "Back to List of Stationeries", stationeries_path, class: "btn btn-primary" %>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_15_013501) do
+ActiveRecord::Schema.define(version: 2019_08_15_032806) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,19 @@ ActiveRecord::Schema.define(version: 2019_08_15_013501) do
     t.integer "stationery_type"
   end
 
+  create_table "transactions", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "stationery_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "quantity"
+    t.boolean "return_details"
+    t.datetime "expired_date"
+    t.datetime "return_date"
+    t.index ["stationery_id"], name: "index_transactions_on_stationery_id"
+    t.index ["user_id"], name: "index_transactions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -35,4 +48,6 @@ ActiveRecord::Schema.define(version: 2019_08_15_013501) do
     t.boolean "admin", default: false
   end
 
+  add_foreign_key "transactions", "stationeries"
+  add_foreign_key "transactions", "users"
 end

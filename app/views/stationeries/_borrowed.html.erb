@@ -1,0 +1,29 @@
+<% if logged_in? %> <!-- user has signed in>
+    <!-- show stationeries that are borrowed/used by the particular user -->
+    <% if (items = Transaction.where(user_id: current_user.id, return_details: true, return_date: nil)) != 0 %>
+        <h3> You currently have <b><i><%= pluralize(items.count, "item") %></i></b> on loan/in use: </h3>
+        <table class="table">
+        <tr>
+        <% items.each do |transaction| %>
+            <% stationery = Stationery.find_by(id: transaction.stationery_id) %>
+            <td>
+            <div class="card">
+            <h5 class="card-title"><%= stationery.name %></h5>
+            <h6 class="card-subtitle mb-2 text-muted">Quantity: <%= transaction.quantity %></h6>
+            <h6 class="card-subtitle mb-2 text-muted">Due: <%= DateTime.parse(transaction.expired_date.to_s).strftime("%l:%M %p, %e %B %Y")%></h6>
+            <%= form_for transaction, url: return_path, method: :post do |f| %>
+            <%= hidden_field_tag :item_to_be_returned, transaction.id %>
+            <%= f.submit "Return", class: "btn btn-primary", data: { confirm: "Are you sure you want to return #{stationery.name}?"} %>
+            <% end %>
+            </div>
+            <td>
+            <br/>
+        <% end %>
+        </tr>
+        </table>
+    <% else %>
+        <p> You currently don't have any items on loan </p>
+    <% end %>
+<% else %>
+    <% redirect_to root_url %>
+<% end %>

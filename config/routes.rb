@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'transactions/new'
   get 'stationeries/new'
   get 'sessions/new'
 
@@ -14,6 +15,11 @@ Rails.application.routes.draw do
   get    '/login',   to: 'sessions#new'
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
+
+  get '/borrow', to: 'transactions#new'
+  post '/borrow', to: 'transactions#create'
+  post '/return', to: 'transactions#return'
+  get '/history', to: 'transactions#full_history'
 
   resources :users, :stationeries
 end

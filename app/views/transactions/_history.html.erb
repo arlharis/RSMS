@@ -1,0 +1,29 @@
+<h4><b><i>Your borrowal/usage history:</i></b></h4>
+<div class="container">
+    <% past_transactions = Transaction.where(user_id: current_user.id, return_details: true).where.not(return_date: nil).take(3) %>
+    <% past_transactions = past_transactions.sort_by(&:return_date).reverse %>
+    <% if past_transactions %>
+    <table class="table">
+        <thead>
+            <% [ "Stationery Name", "Quantity", "Borrowing Date", "Return Date", "Borrow Period w/o Penalty"].each do |column| %>
+                <th><%= column %></th>
+            <% end %>
+        </thead>
+        <% past_transactions.each do |t| %>
+            <tr>
+                <% [ Stationery.find_by(id: t.stationery_id).name, t.quantity, get_date_string(t.created_at), get_date_string(t.return_date), get_date_string(t.expired_date) ].each do |data| %>
+                <td>
+                    <%= data %>
+                </td>
+                <% end %>
+            </tr>
+        <% end %>
+        <tbody>
+
+        </tbody>
+    </table>
+    <% else %>
+        <p> You don't have any stationery borrowal/usage history to be shown. </p>
+    <% end %>
+</div>
+<p><b><i>Note: Only up to 3 most recently returned items are shown here.</i></b></p>

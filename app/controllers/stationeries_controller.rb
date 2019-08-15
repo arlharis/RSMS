@@ -1,9 +1,9 @@
 class StationeriesController < ApplicationController
     include ApplicationHelper
-    before_action :logged_in_admin, only: [:new, :edit]
+    before_action :current_user, only: [:new, :edit]
 
     def index
-        @stationeries = Stationery.all
+        @stationeries = Stationery.all.order("product_code ASC")
     end
 
     def new

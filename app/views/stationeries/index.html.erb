@@ -2,20 +2,40 @@
 
 <div class="container">
 
-    <h3>List of Stationeries (<%= Stationery.count %> in total) </h3>
-    <% @stationeries.each do |item| %>
-        <!-- Adapted from Bootstrap docs -->
-        <div class="card card-default" style="width: 16rem;">
-            <div class="card-body">
-                <h5 class="card-title"><%= item.name %></h5>
-                <h6 class="card-subtitle mb-2 text-muted">Code: <span><%= item.product_code %></span></h6>
-                <h6 class="card-subtitle mb-2 text-muted">Type: <span><%= item.stationery_type.to_s.capitalize %></span></h6>
-                <% if item.quantity == 0 %>
-                    <h6 class="card-subtitle mb-2 text-muted">Unavailable. Please check again later.</h6>
+    <h3><b>Details for Rambutan Stationeries Availability (<%= Stationery.count %> in total) </b></h3>
+    <% provide :title, "List of stationeries" %>
+
+  <div class="container">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Cupboard</th>
+          <th>Number of Available</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <% @stationeries.each do |item| %>
+      <tbody>
+          <tr>
+            <td><%= item.product_code %></td>
+            <td><%= item.name.upcase %></td>
+            <td><%= item.stationery_type.to_s.capitalize %></td>
+            <td><%= item.cupboard_num%></td>
+            <td><% if item.quantity == 0 %>
+                    Unavailable
                 <% else %>
-                    <h6 class="card-subtitle mb-2 text-muted">Available: <span><%= item.quantity %></span></h6>
+                    <%= item.quantity %>
                 <% end %>
+            </td>
+            <td>
                 <% if logged_in? %>
+                    <% if current_user.admin? %>
+                        <%= link_to "Edit", edit_stationery_path(item.id), method: :get, class: "btn btn-primary" %>  
+                        <%= link_to "Delete", item, method: :delete, data: { confirm: "Are you sure you want to delete #{item.name}?" }, class: "btn btn-danger" %>       
+                    <% else %>
                         <%= form_for(:transaction, url: borrow_path, method: :post) do |f| %>
                         <%= f.hidden_field :item_id, value: item.id %> 
                         <%= f.hidden_field :borrower_id, value: current_user.id %> 
@@ -27,15 +47,17 @@
                                 <%= f.number_field :quantity, min: 1, max: 1, class: "form-control", readonly: true, value: 1 %>
                             <% end %>
                             <br/>
-                            <%= f.submit determine_transaction_type(item), class: "btn btn-primary", data: { confirm: "Are you sure you want to #{determine_transaction_type(item).to_s.downcase} #{item.name}?"} %>
+                            
+                            <%= f.submit determine_transaction_type(item), class: "btn btn-primary", data: { confirm: "Are you sure you want to #{determine_transaction_type(item).to_s.downcase} #{item.name}?"} %> <!---->
+                        <% end %>
                     <% end %>
-                    <% end %>
-                <% else %>
-                    <%= link_to "Sign in to borrow", signup_path , class: "card-link btn btn-primary" %>
                 <% end %>
-            </div>
-        </div>
-    <% end %>
-</div>
-<%= link_to "Back to Home", root_path, class: "btn btn-primary" %>
-</div>
+                <% else %>
+                    <%= link_to "Log In to borrow", login_path , class: "card-link btn btn-primary" %>
+                <% end %>
+            </td>
+          </tr>
+      </tbody>
+      <% end %>
+    </table>
+  </div>
