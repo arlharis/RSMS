@@ -1,9 +1,19 @@
 # Ruby on Rails Tutorial sample application
 
 This is the sample application for
-[*Ruby on Rails Tutorial:
-Learn Web Development with Rails*](https://www.railstutorial.org/)
-by [Michael Hartl](http://www.michaelhartl.com/).
+[*Rambutan Stationery Management System*]
+by [Lukman H](https://github.com/arlharis).
+
+## Appreciation
+
+Thanks to Ms Faezrah, Dannial, Carmen for helping me to understand more about the framework for Ruby on Rails
+
+## References
+
+-- https://github.com/fzrh/rambutan_stationery
+-- https://github.com/dashi296/Stationery_app
+-- https://startbootstrap.com/snippets/
+-- https://stackoverflow.com/
 
 ## License
 
