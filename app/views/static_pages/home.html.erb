@@ -1,9 +1,9 @@
 <% if logged_in? %>
 	<div>
 		<div id="home_bg_img" class = "center jumbotron">
-			<h1 style="color: white;">WELCOME TO RSMS</h1>
+			<h1 style="color: white;"><b>WELCOME TO RSMS</b></h1>
 			<img src="https://rambutancode.com/assets/rambutan1-33062baacf69ee4cd28e3e531fef70a0b378a07bb396117b3e6707dcf8b29381.png" height=80 width=80 class="center"></img>
-			<p class="black_text">Rambutan Stationery Management System</p>
+			<p class="black_text"><i>Rambutan Stationery Management System</i></p>
 		</div>
 		<% if !current_user.admin? %>
 			<div>
@@ -11,6 +11,15 @@
 	        	<% if !Transaction.where(user_id: current_user.id, return_details: true).where.not(return_date: nil).empty? %>
 	        	<%= render 'transactions/history' %>
 	        	<% end %>
+			</div>
+			<br>
+			<div>
+				<% if !no_outstanding_fines? %>
+            		<h3><i>Outstanding fine: <b style="color: red">RM <%= calculate_fines %> !!</b></i></h3>
+            		<h4><i>Please pay your fines to Admin. Thank you</i></h4>
+        		<% else %>
+            		<h3><i>You currently have no <b>outstanding fines</b>.</i></h3>
+        		<% end %>
 			</div>
 		<% end %>
 	</div>

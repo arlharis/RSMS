@@ -12,7 +12,7 @@
 <div>
 	<% if !current_user.admin? %>
 		<% if !no_outstanding_fines? %>
-		    <h4>Outstanding fine: <b><i>RM <%= calculate_fines %></i></b></h4>
+		    <h3>Outstanding fine: <b style="color: red"><i>RM <%= calculate_fines %> !!</i></b></h3>
 		<% else %>
 		    <h4>You currently have <b><i>no outstanding fines</i></b>.</h4>
 		<% end %>

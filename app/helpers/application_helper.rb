@@ -52,7 +52,7 @@ module ApplicationHelper
   end
 
   def calculate_fines
-    fine_rate = 5
+    fine_rate = 2
     if logged_in?
       late_items = Transaction.where("user_id = ? AND return_details = true AND return_date IS NULL 
                                       AND expired_date < now()", current_user.id)

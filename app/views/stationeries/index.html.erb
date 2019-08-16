@@ -1,5 +1,5 @@
 <% provide :title, "List of stationeries" %>
-
+<% if no_outstanding_fines? %>
 <div class="container">
 
     <h3><b>Details for Rambutan Stationeries Availability (<%= Stationery.count %> in total) </b></h3>
@@ -61,3 +61,15 @@
       <% end %>
     </table>
   </div>
+</div>
+<% else %>
+<div class="container">
+  <h2 style="color: red">
+    <i>You currently have <b>outstanding fines (RM <%= calculate_fines %>)</b> due to late returning item.</i>
+  </h2> 
+  <h2 style="color: red">
+    <i>Please pay your fines and return your borrowed/used items before borrow/use/take any more items.</i>
+  </h2>
+  <%= link_to "Back to Home", root_path, class: "btn btn-primary" %>
+</div>
+<% end %>
